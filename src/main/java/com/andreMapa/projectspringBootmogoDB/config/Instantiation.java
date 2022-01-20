@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.andreMapa.projectspringBootmogoDB.domain.Post;
 import com.andreMapa.projectspringBootmogoDB.domain.User;
+import com.andreMapa.projectspringBootmogoDB.dto.AuthorDTO;
 import com.andreMapa.projectspringBootmogoDB.repository.PostRepository;
 import com.andreMapa.projectspringBootmogoDB.repository.UserRepository;
 
@@ -37,10 +38,13 @@ public class Instantiation implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(maria,alex,bob));
 		
-		Post post1 = new Post(null, sdf.parse("21/03/2022"), "Partiu Viagem", "Vou viajar para São Paulo abraços", maria);
-		Post post2 = new Post(null, sdf.parse("23/03/2022"), "Bom dia!","Acordei feliz hoje!",maria);
+		Post post1 = new Post(null, sdf.parse("21/03/2022"), "Partiu Viagem", "Vou viajar para São Paulo abraços", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("23/03/2022"), "Bom dia!","Acordei feliz hoje!", new AuthorDTO(maria));
 		
 		postRepository.saveAll(Arrays.asList(post1,post2));
+		
+		maria.getPosts().addAll(Arrays.asList(post1,post2));
+		userRepository.save(maria);
 		
 	}
 
